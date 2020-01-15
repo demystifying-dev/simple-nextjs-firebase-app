@@ -1,6 +1,6 @@
 ## Simple Next.js App with Firebase
 
-### Initial test mode v1.0.0-alfa2
+### Initial test mode v1.0.0-alfa1
 
 #### Create Firestore Project in the Firebase Console
 
