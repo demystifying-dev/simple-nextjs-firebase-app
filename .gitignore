@@ -17,6 +17,9 @@
 
 # misc
 .DS_Store
+.*.swp
+
+# dotenv
 .env*
 
 # debug
