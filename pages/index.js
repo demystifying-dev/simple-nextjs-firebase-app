@@ -1,16 +1,17 @@
 import React from "react";
 import Head from "next/head";
+import Link from "next/link";
 import Nav from "../components/nav";
 
 // Firebase
 import loadFirebase from "../firebase.config";
 
-const Home = ({ photos }) => {
+const Photos = ({ photos }) => {
   console.log("photos", photos);
   return (
     <div>
       <Head>
-        <title>Home</title>
+        <title>Photos</title>
         {/* <link rel='icon' href='/favicon.ico' /> */}
       </Head>
 
@@ -20,13 +21,14 @@ const Home = ({ photos }) => {
         <h1 className="title">Welcome to Next.js with Firebase!</h1>
 
         <div className="row">
-          {photos.map(photo => (
-            <div className="card" id="data" key={photo.id}>
-              <img src={photo.url} alt="Photo" className="photo" />
-              <h3>{photo.title}</h3>
-              <p>{photo.description}</p>
-            </div>
-          ))}
+          <div className="card">
+            {photos.length > 0 && (
+              <Link href="/photos">
+                <a>Click to access {photos.length} photos</a>
+              </Link>
+            )}
+            {photos.length < 1 && <p>No photos yet</p>}
+          </div>
         </div>
       </div>
 
@@ -86,7 +88,7 @@ const Home = ({ photos }) => {
   );
 };
 
-Home.getInitialProps = async () => {
+Photos.getInitialProps = async () => {
   const firebase = await loadFirebase();
   const db = firebase.firestore();
   let result = await new Promise((resolve, reject) => {
@@ -113,4 +115,4 @@ Home.getInitialProps = async () => {
   return { photos: result };
 };
 
-export default Home;
+export default Photos;

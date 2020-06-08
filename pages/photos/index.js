@@ -1,16 +1,17 @@
 import React from "react";
 import Head from "next/head";
+import Link from "next/link";
 import Nav from "../../components/nav";
 
 // Firebase
 import loadFirebase from "../../firebase.config";
 
-const Photos = ({ photos }) => {
+const Home = ({ photos }) => {
   console.log("photos", photos);
   return (
     <div>
       <Head>
-        <title>Photos</title>
+        <title>Home</title>
         {/* <link rel='icon' href='/favicon.ico' /> */}
       </Head>
 
@@ -24,7 +25,13 @@ const Photos = ({ photos }) => {
             <div className="card" id="data" key={photo.id}>
               <img src={photo.url} alt="Photo" className="photo" />
               <h3>{photo.title}</h3>
-              <p>{photo.description}</p>
+              <p>
+                {photo.description &&
+                  photo.description.substring(0, 40) + "..."}
+              </p>
+              <Link href={"/photos/" + photo.id}>
+                <a>Click for {photo.title}</a>
+              </Link>
             </div>
           ))}
         </div>
@@ -70,10 +77,15 @@ const Photos = ({ photos }) => {
           font-size: 18px;
         }
         .card p {
-          margin: 0;
+          margin: 0 0 12px 0;
           padding: 12px 0 0;
           font-size: 13px;
           color: #333;
+        }
+        .card a {
+          text-decoration: none;
+          font-size: 12px;
+          color: purple;
         }
         .photo {
           vertical-align: middle;
@@ -86,7 +98,7 @@ const Photos = ({ photos }) => {
   );
 };
 
-Photos.getInitialProps = async () => {
+Home.getInitialProps = async () => {
   const firebase = await loadFirebase();
   const db = firebase.firestore();
   let result = await new Promise((resolve, reject) => {
@@ -113,4 +125,4 @@ Photos.getInitialProps = async () => {
   return { photos: result };
 };
 
-export default Photos;
+export default Home;
